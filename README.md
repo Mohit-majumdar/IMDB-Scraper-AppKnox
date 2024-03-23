@@ -42,11 +42,15 @@ python tests.py
   
 ## Demo Video
 
-https://github.com/Mohit-majumdar/IMDB-Scraper-AppKnox/assets/54443683/fec9a770-73aa-4b42-b17f-05d41a58e535
+https://github.com/Mohit-majumdar/IMDB-Scraper-AppKnox/assets/54443683/7b89792f-a8d7-4264-bb1e-c589968ed40d
 
 **Note:** 
 - Please ensure that you have an active internet connection during the execution of the application for seamless scraping of data from IMDB.
 - After every successful run, the IMDB server may go down on the local machine for approximately 5 minutes.
+
+
+
+
 
 
 
