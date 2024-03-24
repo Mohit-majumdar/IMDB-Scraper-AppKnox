@@ -20,7 +20,7 @@ class ScrapingData:
     def __init__(self, search_string, search_type="genres") -> None:
         self._type = search_type
         self._search_string = search_string
-        # defining requests header for resolve 403 erorr
+        # defining requests header for resolve 403 error
         self._header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
         self._url = "https://www.imdb.com"
 
@@ -35,7 +35,7 @@ class ScrapingData:
         }
 
         # storing all CSS selectors in one place for reuse
-        self._selctor_map = {
+        self._selector_map = {
             "load_more": "button.ipc-see-more__button",
             "genres": {"a_key": "a.ipc-title-link-wrapper"},
             "keyword": {"a_key": "a.ipc-metadata-list-summary-item__t"},
@@ -59,7 +59,7 @@ class ScrapingData:
             service=Service(ChromeDriverManager().install()), options=chrome_options
         )
         try:
-            selector = self._selctor_map.get("load_more", "")
+            selector = self._selector_map.get("load_more", "")
             driver.get(url)
             wait = WebDriverWait(driver, 15)
             el = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
@@ -72,16 +72,16 @@ class ScrapingData:
                     )
                     await asyncio.sleep(5)
                 except Exception as E:
-                    logger.warning(f"unable to get elemet {E}")
+                    logger.warning(f"unable to get element {E}")
                     el = driver.find_element(By.CSS_SELECTOR, selector)
                     continue
 
             soup = driver.page_source
             return soup
         except Exception as E:
-            logger.error(f"got error during get data from chrome error : {E}")
+            logger.error("got error during get data from chrome error : %s",E)
             print(
-                f"\nSorry, seems like we broke the imdb server or you have entered worng {self._type}, Please Try again after 5 minute"
+                f"\nSorry, seems like we broke the imdb server or you have entered wrong {self._type}, Please Try again after 5 minute"
             )
             sys.exit(1)
         finally:
@@ -104,7 +104,7 @@ class ScrapingData:
                         return None
                     return await res.text()
             except Exception as e:
-                logger.error(f"unable to fecth {url} due to {e}")
+                logger.error(f"unable to fetch {url} due to {e}")
 
     async def _create_soup(self, content):
         if not content:
@@ -141,7 +141,7 @@ class ScrapingData:
             title_list = soup.select("li.ipc-metadata-list-summary-item")
             _list = []
             for li in title_list:
-                selector = self._selctor_map.get(self._type, {}).get("a_key")
+                selector = self._selector_map.get(self._type, {}).get("a_key")
                 link = li.select_one(selector).get("href")
                 _list.append(link)
             tasks = [self.extract_childs(title) for title in _list]
@@ -153,7 +153,7 @@ class ScrapingData:
         except Exception as e:
             tb = sys.exc_info()[-1]
             logger.error(
-                "got some erorr at line: %s and Error: %s",
+                "got some error at line: %s and Error: %s",
                 tb.tb_lineno,
                 e,
                 exc_info=sys.exc_info(),
@@ -209,7 +209,7 @@ class ScrapingData:
         except Exception as e:
             tb = sys.exc_info()[-1]
             logger.error(
-                "got some erorr at line: %s and Error: %s",
+                "got some error at line: %s and Error: %s",
                 tb.tb_lineno,
                 e,
                 exc_info=sys.exc_info(),

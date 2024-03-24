@@ -21,7 +21,7 @@ async def _read_text_file():
         MESSAGES = [line.strip() for line in f.readlines()]
 
 
-def create_requird_folder():
+def create_required_folder():
     logs_path = Path(".").absolute() / "logs"
     logs_path.mkdir(exist_ok=True)
 
@@ -52,13 +52,13 @@ def print_loading_message():
 def get_input():
     typing_print("Hello There!!! Welcome to IMDB Scraper..")
     print()
-    typing_print("what you want to search: \nFor Grene Press 1\nFor keyword Press 2")
+    typing_print("what you want to search: \nFor genre Press 1\nFor keyword Press 2")
     print()
     while True:
         movie_type = input("Enter Your Choice: ")
         movie_type = _NAMEMAP.get(movie_type)
         if not movie_type:
-            print("You have choese wrong option please choose correct one")
+            print("You have choose wrong option please choose correct one")
             continue
 
         movie_name = input(f"Please Enter Your {movie_type}: ")
@@ -78,7 +78,7 @@ async def main():
 
 
 if __name__ == "__main__":
-    create_requird_folder()
+    create_required_folder()
     loading_thread = threading.Thread(target=print_loading_message)
     loading_thread.daemon = True
     asyncio.run(main())
