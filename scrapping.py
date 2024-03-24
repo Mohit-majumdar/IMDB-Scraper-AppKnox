@@ -164,11 +164,12 @@ class ScrapingData:
     async def _get_director(self, soup) -> str | None:
         director = soup.select("a[href*='tt_ov_dr']")
         if not director:
-            director = soup.select("a[href*='tt_ov_wr']")
+            director = soup.select('a[href*="tt_ov_wr"]:not([href*="tt_ov_wr_"])')
 
         if not director:
             return None
         director = [dr.text for dr in director]
+        director = list(set(director))
         director = ",".join(director)
         return director
 
